@@ -64,45 +64,57 @@ enum GameState {
 
 const App = () => {
   const [state, setState] = useState(GameState.normal);
-  //const [selectedItems, setSelectedItems] = useState<[number, number, number]>([0, 0, 0]);
+  const [correct, setCorrect] = useState<number[]>([]);
   const [selectedItems, dispatch] = useReducer(reducer, initialState);
+
 
   const handleRing0CardChanged = useCallback((index: number) => {
     dispatch({ type: 'updateRing0', index});
+    //setState(GameState.normal);
   }, []);
   
   const handleRing1CardChanged = useCallback((index: number) => {   
     dispatch({ type: 'updateRing1', index});
+    //setState(GameState.normal);
   }, []);
   
   const handleRing2CardChanged = useCallback((index: number) => {   
     dispatch({ type: 'updateRing2', index});
+    //setState(GameState.normal);
   }, []);
 
   
   const check = () => {
     if (selectedItems[0] === selectedItems[1] && selectedItems[1] === selectedItems[2]){
       setState(GameState.correct);
+      setCorrect([...correct, selectedItems[0]]);
+
     } else {
       setState(GameState.wrong);
     }
-    console.log(selectedItems)
+  }
+  
+  const handleContinue = () => {   
+    setState(GameState.normal);
   }
 
-  const handleContinue = () => {
+  const handleSpinnerClick = () => {
     setState(GameState.normal);
-
   }
 
   return (
     <div className="background">
       <div className="center">
-        <Spinner 
-          data={data.content} 
-          onRing0IndexChanged={handleRing0CardChanged}
-          onRing1IndexChanged={handleRing1CardChanged}
-          onRing2IndexChanged={handleRing2CardChanged}
-        />
+        {state & (GameState.normal | GameState.wrong | GameState.correct) && (
+          <Spinner 
+            data={data.content}
+            correct={correct}
+            onClick={handleSpinnerClick}
+            onRing0IndexChanged={handleRing0CardChanged}
+            onRing1IndexChanged={handleRing1CardChanged}
+            onRing2IndexChanged={handleRing2CardChanged}
+          />
+        )}
         {state === GameState.normal && <CheckButton onClick={check}/>}
         {state === GameState.correct && <Feedback mode={FeedbackMode.correct} onContinue={handleContinue}/>}
         {state === GameState.wrong && <Feedback mode={FeedbackMode.wrong} onContinue={handleContinue}/>}

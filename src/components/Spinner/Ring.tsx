@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useEffect, useCallback } from 'react';
 
 interface Props {
   data: string[];
+  disabled?: number[]; // indexes of disabled
   className: string;
   image?: boolean;
   onCardIndexChanged: (index: number) => void;
@@ -19,9 +20,13 @@ enum Phase {
   firstAndLast = 'ease-in-out'
 }
 
-
 const Ring = (props: Props) => {
-  const { onCardIndexChanged }= props;
+  const { 
+    disabled,
+    initialMove,
+    onCardIndexChanged 
+  } = props;
+
   const caretRef = useRef(0);
   const spinning = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,8 +68,7 @@ const Ring = (props: Props) => {
       counter++;
     }
   }, [items.length]);
-  
-  
+    
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = event.target as HTMLDivElement;
     const parentNode = (element.parentNode as HTMLElement)!
@@ -102,8 +106,6 @@ const Ring = (props: Props) => {
     move(i);
   }
   
-  
- 
   const handleCaretChanged = useCallback(() => {
     const cardIndex = () => {
       const index = caretRef.current % items.length;
@@ -167,9 +169,25 @@ const Ring = (props: Props) => {
   
   useEffect(() => {
     update();
-    move(2);
-  }, [move, update]);
+    move(initialMove);
+  }, [initialMove, move, update]);
   
+  useEffect(() => {
+    if (!disabled || !disabled.length) return;
+    const parentNode = (ref.current as HTMLElement)!
+
+    for (let i = 0; i < parentNode.children.length; i++) {
+      const element = parentNode.children[i] as HTMLElement;
+      const index = parseInt(element.getAttribute('original-index')!, 10);
+      if (disabled.indexOf(index) !== -1) {
+          element.classList.add('disabled');
+      } else {
+          element.classList.remove('disabled');
+      }
+    }
+    move(1);
+  }, [disabled, move]);
+
   const renderItem = (item: string) => {
     if (props.image) {
       return (
@@ -217,35 +235,3 @@ const shuffle = (originalArray: string[]) => {
   }
   return array;
 };
-
-// const update = (parent: HTMLDivElement, items: string[], caret: number, transitionTime: number = BASE_ANIMATION_TIME, phase: Phase = Phase.firstAndLast) => {
-
-//   const halfItems = Math.floor(items.length / 2);
-//   let counter = 0;
-//   for (let i = caret; i < parent.children.length + caret; i++) {
-//     let index = i % items.length;
-//     if (i < 0) index += items.length;
-
-//     const element = parent.children[index % items.length] as HTMLElement;
-//     element.style.transition = `top ${transitionTime}s ${phase}`;
-
-//     // Add animation only to the current card and those above and below
-//     if (Math.abs((i - caret) % (items.length - 1)) < 2) {
-//         element.style.transition = `top ${transitionTime}s ${phase}`;
-//         element.style.visibility = 'visible';
-//     }
-//     else {
-//         element.style.transition = '';
-//         element.style.visibility = 'hidden';
-//     }
-
-//     if (counter > halfItems) {
-//         // Draw above (please dont ask me why this works. it works, allright?)
-//         element.style.top = `${halfItems * -(ITEM_HEIGHT + MARGIN) - ((halfItems + (halfItems % 2) - counter) * (ITEM_HEIGHT + MARGIN))}px`;
-//     } else {
-//         // Draw below
-//         element.style.top = `${counter * (ITEM_HEIGHT + MARGIN)}px`;
-//     }
-//     counter++;
-//   }
-// }

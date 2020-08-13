@@ -5,6 +5,8 @@ import './styles/spinner.scss';
 
 interface Props {
   data: SpinnerData;
+  correct: number[];
+  onClick: () => void;
   onRing0IndexChanged: (index: number) => void;
   onRing1IndexChanged: (index: number) => void;
   onRing2IndexChanged: (index: number) => void;
@@ -13,19 +15,23 @@ interface Props {
 
 const Spinner = (props: Props) => {
   const {
+    correct,
+    onClick,
     onRing0IndexChanged,
     onRing1IndexChanged,
     onRing2IndexChanged
   } = props;
+
   return (
-    <div className="spinner">
+    <div className="spinner" onClick={onClick}>
       <Ring 
         className="ring1"
+        disabled={correct}
         initialMove={6}
         data={props.data.risks} 
         onCardIndexChanged={onRing0IndexChanged}
         image={true}
-        />
+      />
       <Ring 
         className="ring2" 
         initialMove={9}
