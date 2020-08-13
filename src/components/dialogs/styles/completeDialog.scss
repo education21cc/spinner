@@ -1,0 +1,35 @@
+.complete-dialog {
+  display: flex;
+  flex-direction: column;
+}
+
+.complete-dialog .top {
+  flex: 1;
+  text-align: center;
+  padding: 16px;
+}
+
+.complete-dialog .center {
+  text-align: center;
+  padding: 16px;
+  padding-bottom: 32px;
+}
+
+.complete-dialog .bottom {
+  height: 128px;  
+  background: #24A5C5;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.complete-dialog  .bottom .start {
+  margin: 20px 48px 0 auto;
+  position: absolute;
+  right: 0;
+}
+
+.complete-dialog  .bottom .star {
+  margin: 0 32px;
+}

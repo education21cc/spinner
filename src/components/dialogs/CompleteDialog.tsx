@@ -1,17 +1,16 @@
 import React from 'react';
 import BaseDialog from './BaseDialog';
 import { ReactComponent as StarEmpty } from './../../common/images/star-empty.svg';
-import './styles/introDialog.scss';
+import './styles/completeDialog.scss';
 
 interface Props {
   headerText: string;
   descriptionText: string;
-  starsToGainText: string;
   startText: string;
   onStart: () => void;
 }
 
-const IntroDialog = (props: Props) => {
+const CompleteDialog = (props: Props) => {
   return (
     <BaseDialog className="intro-dialog">
       <div className="top">
@@ -22,9 +21,6 @@ const IntroDialog = (props: Props) => {
       </div>  
       <div className="bottom">
         <StarEmpty className="star"/>
-        <span className="stars-to-gain">
-          {props.starsToGainText}
-        </span>
         <button className="green button start" onClick={props.onStart}>
           {props.startText}
         </button>
@@ -33,4 +29,4 @@ const IntroDialog = (props: Props) => {
   );
 }
 
-export default IntroDialog;
+export default CompleteDialog;

@@ -1,12 +1,13 @@
 .intro-dialog {
   display: flex;
   flex-direction: column;
+  font-size: large;
 }
 
 .intro-dialog .top {
   flex: 1;
   text-align: center;
-  padding: 16px;
+  padding-top: 16px;
 }
 
 .intro-dialog .center {
@@ -16,12 +17,27 @@
 }
 
 .intro-dialog .bottom {
-  height: 128px;  
+  height: 94px;  
   background: #24A5C5;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.intro-dialog  .bottom .star {
+  margin: auto 16px;
+}
+
+.intro-dialog  .bottom .stars-to-gain {
+  align-self: center; 
+  color: white;
+  font-size: x-large;
+  flex: 1;
 }
 
 .intro-dialog  .bottom .start {
-  margin: 20px 48px 0 auto;
-  position: absolute;
-  right: 0;
+  // margin: auto;
+  margin: auto 32px;
 }

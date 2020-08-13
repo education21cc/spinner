@@ -10,6 +10,7 @@ import { GameData } from '../playerBridge/GameData';
 import PlayerBridge from '../playerBridge';
 import BaseDialog from '../dialogs/BaseDialog';
 import IntroDialog from '../dialogs/IntroDialog';
+import CompleteDialog from '../dialogs/CompleteDialog';
 
 
 const data: GameData<SpinnerData> = {
@@ -44,7 +45,8 @@ const data: GameData<SpinnerData> = {
           'Brand&shy;wonden en electrocutie',
           'Verwon&shy;dingen aan het lichaam',
           'Verstikking',
-      ]
+      ],
+      'maxStars': 3
   },
   'translations': [{
       'key': 'heartLeft',
@@ -58,6 +60,9 @@ const data: GameData<SpinnerData> = {
   }, {
       'key': 'description',
       'value': 'In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents. In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents.'
+  }, {
+      'key': 'stars-to-gain',
+      'value': '{0} stars to gain'
   }],
   'levelsCompleted': [{
       'level': 1,
@@ -71,12 +76,14 @@ enum GameState {
   intro = 0,
   normal = 1 << 1,
   wrong = 1 << 2,
-  correct = 1 << 3
+  correct = 1 << 3,
+  complete = 1 << 4
 }
 
 const App = () => {
   const [state, setState] = useState(GameState.intro);
   const [correct, setCorrect] = useState<number[]>([]);
+  const [mistakes, setMistakes] = useState(0);
   const [selectedItems, dispatch] = useReducer(reducer, initialState);
 
   const handleRing0CardChanged = useCallback((index: number) => {
@@ -99,6 +106,7 @@ const App = () => {
 
     } else {
       setState(GameState.wrong);
+      setMistakes(mistakes + 1);
     }
   }
   
@@ -132,6 +140,14 @@ const App = () => {
         <div className="app-center">
           {state === GameState.intro && 
           (<IntroDialog
+            onStart={handleStart}
+            headerText={translations["header"]}
+            descriptionText={translations["description"]}
+            starsToGainText={translations["stars-to-gain"].replace("{0}", data.content.risks.length.toString())}
+            startText={translations["start"]}
+          />)}
+          {state === GameState.complete && 
+          (<CompleteDialog
             onStart={handleStart}
             headerText={translations["header"]}
             descriptionText={translations["description"]}
