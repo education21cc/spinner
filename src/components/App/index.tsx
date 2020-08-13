@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useState} from 'react';
+import React, { useReducer, useCallback, useState, useMemo} from 'react';
 import Spinner from '../Spinner';
 import './styles/app.scss';
 import './../styles/common.scss'
@@ -8,6 +8,8 @@ import { initialState, reducer } from './reducer';
 import Feedback, { FeedbackMode } from '../Feedback';
 import { GameData } from '../playerBridge/GameData';
 import PlayerBridge from '../playerBridge';
+import BaseDialog from '../dialogs/BaseDialog';
+import IntroDialog from '../dialogs/IntroDialog';
 
 
 const data: GameData<SpinnerData> = {
@@ -47,6 +49,15 @@ const data: GameData<SpinnerData> = {
   'translations': [{
       'key': 'heartLeft',
       'value': 'Stop onmiddellijk met werken (eigen veiligheid)'
+  }, {
+      'key': 'header',
+      'value': 'Spinner game'
+  }, {
+      'key': 'start',
+      'value': 'Start'
+  }, {
+      'key': 'description',
+      'value': 'In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents. In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents.'
   }],
   'levelsCompleted': [{
       'level': 1,
@@ -64,10 +75,9 @@ enum GameState {
 }
 
 const App = () => {
-  const [state, setState] = useState(GameState.normal);
+  const [state, setState] = useState(GameState.intro);
   const [correct, setCorrect] = useState<number[]>([]);
   const [selectedItems, dispatch] = useReducer(reducer, initialState);
-
 
   const handleRing0CardChanged = useCallback((index: number) => {
     dispatch({ type: 'updateRing0', index});
@@ -95,6 +105,9 @@ const App = () => {
   const handleContinue = () => {   
     setState(GameState.normal);
   }
+  const handleStart = () => {   
+    setState(GameState.normal);
+  }
 
   const handleSpinnerClick = () => {
     setState(GameState.normal);
@@ -104,12 +117,27 @@ const App = () => {
     //setContent(data.content);
   }
 
+  const translations = useMemo(() => {
+    return data.translations.reduce<{[key: string]: string}>((acc, translation) => {
+      acc[translation.key] = translation.value;
+      return acc;
+    }, {})
+  }, [data]);
+
   return (
     <>
       <PlayerBridge gameDataReceived={handleGameDataReceived}/>
       <div className="background">
-        <div className="center">
-          {state & (GameState.normal | GameState.wrong | GameState.correct) && (
+      
+        <div className="app-center">
+          {state === GameState.intro && 
+          (<IntroDialog
+            onStart={handleStart}
+            headerText={translations["header"]}
+            descriptionText={translations["description"]}
+            startText={translations["start"]}
+          />)}
+          {(!!(state & (GameState.normal | GameState.wrong | GameState.correct))) && (
             <Spinner 
               data={data.content}
               correct={correct}

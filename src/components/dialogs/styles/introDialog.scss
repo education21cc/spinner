@@ -1,0 +1,27 @@
+.intro-dialog {
+  display: flex;
+  flex-direction: column;
+}
+
+.intro-dialog .top {
+  flex: 1;
+  text-align: center;
+  padding: 16px;
+}
+
+.intro-dialog .center {
+  text-align: center;
+  padding: 16px;
+  padding-bottom: 32px;
+}
+
+.intro-dialog .bottom {
+  height: 128px;  
+  background: #24A5C5;
+}
+
+.intro-dialog  .bottom .start {
+  margin: 20px 48px 0 auto;
+  position: absolute;
+  right: 0;
+}
