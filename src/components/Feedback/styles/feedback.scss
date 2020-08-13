@@ -1,0 +1,24 @@
+.feedback {
+  position: absolute;
+  border-radius: 16px 16px 0px 0px;
+  width: 100%;
+  padding: 16px 48px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  font-size: 32px;
+  margin-top: 16px;
+}
+
+
+.feedback.wrong {
+  background: #FFE1E1 0% 0% no-repeat padding-box;
+  border: 4px solid #FF5151;
+  color: #FF5151;
+}
+
+.feedback.correct {
+  background: #D7F9DA 0% 0% no-repeat padding-box;
+  border: 4px solid #2FB833;
+  color: #2FB833;
+}

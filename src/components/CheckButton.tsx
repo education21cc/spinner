@@ -1,11 +1,16 @@
 import React from 'react';
 
-const CheckButton = () => {
-    return (
-        <button className="green button check">
-            Check
-        </button>
-    )
+
+interface Props {
+  onClick: () => void;
+}
+
+const CheckButton = (props: Props) => {
+  return (
+    <button className="green button check" onClick={props.onClick}>
+      Check
+    </button>
+  )
 }
 
 export default CheckButton;

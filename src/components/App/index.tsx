@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useReducer, useCallback, useState} from 'react';
 import Spinner from '../Spinner';
 import './styles/app.scss';
 import './../styles/common.scss'
 import { SpinnerData } from '../../data/SpinnerData';
 import { GameData } from '../../data/GameData';
 import CheckButton from '../CheckButton';
+import { initialState, reducer } from './reducer';
+import Feedback, { FeedbackMode } from '../Feedback';
 
 
 const data: GameData<SpinnerData> = {
@@ -53,12 +55,57 @@ const data: GameData<SpinnerData> = {
 };
 
 
+enum GameState {
+  intro = 0,
+  normal = 1 << 1,
+  wrong = 1 << 2,
+  correct = 1 << 3
+}
+
 const App = () => {
+  const [state, setState] = useState(GameState.normal);
+  //const [selectedItems, setSelectedItems] = useState<[number, number, number]>([0, 0, 0]);
+  const [selectedItems, dispatch] = useReducer(reducer, initialState);
+
+  const handleRing0CardChanged = useCallback((index: number) => {
+    dispatch({ type: 'updateRing0', index});
+  }, []);
+  
+  const handleRing1CardChanged = useCallback((index: number) => {   
+    dispatch({ type: 'updateRing1', index});
+  }, []);
+  
+  const handleRing2CardChanged = useCallback((index: number) => {   
+    dispatch({ type: 'updateRing2', index});
+  }, []);
+
+  
+  const check = () => {
+    if (selectedItems[0] === selectedItems[1] && selectedItems[1] === selectedItems[2]){
+      setState(GameState.correct);
+    } else {
+      setState(GameState.wrong);
+    }
+    console.log(selectedItems)
+  }
+
+  const handleContinue = () => {
+    setState(GameState.normal);
+
+  }
+
   return (
     <div className="background">
       <div className="center">
-        <Spinner data={data.content} />
-        <CheckButton />
+        <Spinner 
+          data={data.content} 
+          onRing0IndexChanged={handleRing0CardChanged}
+          onRing1IndexChanged={handleRing1CardChanged}
+          onRing2IndexChanged={handleRing2CardChanged}
+        />
+        {state === GameState.normal && <CheckButton onClick={check}/>}
+        {state === GameState.correct && <Feedback mode={FeedbackMode.correct} onContinue={handleContinue}/>}
+        {state === GameState.wrong && <Feedback mode={FeedbackMode.wrong} onContinue={handleContinue}/>}
       </div>
     </div>
   );
