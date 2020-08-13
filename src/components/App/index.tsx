@@ -3,10 +3,11 @@ import Spinner from '../Spinner';
 import './styles/app.scss';
 import './../styles/common.scss'
 import { SpinnerData } from '../../data/SpinnerData';
-import { GameData } from '../../data/GameData';
 import CheckButton from '../CheckButton';
 import { initialState, reducer } from './reducer';
 import Feedback, { FeedbackMode } from '../Feedback';
+import { GameData } from '../playerBridge/GameData';
+import PlayerBridge from '../playerBridge';
 
 
 const data: GameData<SpinnerData> = {
@@ -70,17 +71,14 @@ const App = () => {
 
   const handleRing0CardChanged = useCallback((index: number) => {
     dispatch({ type: 'updateRing0', index});
-    //setState(GameState.normal);
   }, []);
   
   const handleRing1CardChanged = useCallback((index: number) => {   
     dispatch({ type: 'updateRing1', index});
-    //setState(GameState.normal);
   }, []);
   
   const handleRing2CardChanged = useCallback((index: number) => {   
     dispatch({ type: 'updateRing2', index});
-    //setState(GameState.normal);
   }, []);
 
   
@@ -102,24 +100,31 @@ const App = () => {
     setState(GameState.normal);
   }
 
+  const handleGameDataReceived = (data: GameData<SpinnerData> ) => {
+    //setContent(data.content);
+  }
+
   return (
-    <div className="background">
-      <div className="center">
-        {state & (GameState.normal | GameState.wrong | GameState.correct) && (
-          <Spinner 
-            data={data.content}
-            correct={correct}
-            onClick={handleSpinnerClick}
-            onRing0IndexChanged={handleRing0CardChanged}
-            onRing1IndexChanged={handleRing1CardChanged}
-            onRing2IndexChanged={handleRing2CardChanged}
-          />
-        )}
-        {state === GameState.normal && <CheckButton onClick={check}/>}
-        {state === GameState.correct && <Feedback mode={FeedbackMode.correct} onContinue={handleContinue}/>}
-        {state === GameState.wrong && <Feedback mode={FeedbackMode.wrong} onContinue={handleContinue}/>}
+    <>
+      <PlayerBridge gameDataReceived={handleGameDataReceived}/>
+      <div className="background">
+        <div className="center">
+          {state & (GameState.normal | GameState.wrong | GameState.correct) && (
+            <Spinner 
+              data={data.content}
+              correct={correct}
+              onClick={handleSpinnerClick}
+              onRing0IndexChanged={handleRing0CardChanged}
+              onRing1IndexChanged={handleRing1CardChanged}
+              onRing2IndexChanged={handleRing2CardChanged}
+            />
+          )}
+          {state === GameState.normal && <CheckButton onClick={check}/>}
+          {state === GameState.correct && <Feedback mode={FeedbackMode.correct} onContinue={handleContinue}/>}
+          {state === GameState.wrong && <Feedback mode={FeedbackMode.wrong} onContinue={handleContinue}/>}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
