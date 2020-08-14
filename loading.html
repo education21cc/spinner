@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> 
+
     <meta name="theme-color" content="#000000" />
     <style>
         body {
@@ -59,8 +61,33 @@
         }
 
         .subtext {
+            margin-top: 16px;
             color: white;
+            font: 24px 'Open Sans', sans-serif;
         }
+
+        .subtext:after {
+            content: '.';
+            width: 33px;
+            display: inline-block;
+            animation: dots 2s steps(5, end) infinite;
+            margin-left: -4px;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '.'
+            }
+            60% {
+                content: '..'
+            }
+            80% {
+                content: '...'
+            }
+            100% {
+                content: '.'
+            }
+        }	
     </style>
   </head>
   <body>
