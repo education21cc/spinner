@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useState, useMemo} from 'react';
+import React, { useReducer, useCallback, useState, useMemo, useEffect} from 'react';
 import Spinner from '../Spinner';
 import './styles/app.scss';
 import './../styles/common.scss'
@@ -8,7 +8,6 @@ import { initialState, reducer } from './reducer';
 import Feedback, { FeedbackMode } from '../Feedback';
 import { GameData } from '../playerBridge/GameData';
 import PlayerBridge from '../playerBridge';
-import BaseDialog from '../dialogs/BaseDialog';
 import IntroDialog from '../dialogs/IntroDialog';
 import CompleteDialog from '../dialogs/CompleteDialog';
 
@@ -52,17 +51,32 @@ const data: GameData<SpinnerData> = {
       'key': 'heartLeft',
       'value': 'Stop onmiddellijk met werken (eigen veiligheid)'
   }, {
-      'key': 'header',
+      'key': 'intro-header',
       'value': 'Spinner game'
   }, {
-      'key': 'start',
+      'key': 'intro-start',
       'value': 'Start'
   }, {
-      'key': 'description',
+      'key': 'intro-description',
       'value': 'In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents. In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents.'
+  }, {
+      'key': 'intro-stars-to-gain',
+      'value': '{0} stars to gain'
   }, {
       'key': 'stars-to-gain',
       'value': '{0} stars to gain'
+  }, {
+      'key': 'complete-header',
+      'value': 'Congratulations'
+  }, {
+      'key': 'complete-score',
+      'value': 'Total score {0} / {1}'
+  }, {
+      'key': 'complete-try-again',
+      'value': 'Try again'
+  }, {
+      'key': 'complete-exit',
+      'value': 'Exit'
   }],
   'levelsCompleted': [{
       'level': 1,
@@ -70,7 +84,6 @@ const data: GameData<SpinnerData> = {
       'maxScore': 2
   }]
 };
-
 
 enum GameState {
   intro = 0,
@@ -83,7 +96,7 @@ enum GameState {
 const App = () => {
   const [state, setState] = useState(GameState.intro);
   const [correct, setCorrect] = useState<number[]>([]);
-  const [mistakes, setMistakes] = useState(0);
+  const [mistakes, setMistakes] = useState(2);
   const [selectedItems, dispatch] = useReducer(reducer, initialState);
 
   const handleRing0CardChanged = useCallback((index: number) => {
@@ -103,7 +116,6 @@ const App = () => {
     if (selectedItems[0] === selectedItems[1] && selectedItems[1] === selectedItems[2]){
       setState(GameState.correct);
       setCorrect([...correct, selectedItems[0]]);
-
     } else {
       setState(GameState.wrong);
       setMistakes(mistakes + 1);
@@ -117,6 +129,12 @@ const App = () => {
     setState(GameState.normal);
   }
 
+  const handleReset = () => { 
+    setState(GameState.normal);
+    setMistakes(0);
+    setCorrect([]);
+  }
+
   const handleSpinnerClick = () => {
     setState(GameState.normal);
   }
@@ -124,6 +142,13 @@ const App = () => {
   const handleGameDataReceived = (data: GameData<SpinnerData> ) => {
     //setContent(data.content);
   }
+
+  useEffect(() => {
+    // Compelete!
+    if(state === GameState.normal && correct.length === data.content.risks.length){
+      setState(GameState.complete);
+    }
+  }, [correct, state]);
 
   const translations = useMemo(() => {
     return data.translations.reduce<{[key: string]: string}>((acc, translation) => {
@@ -141,17 +166,21 @@ const App = () => {
           {state === GameState.intro && 
           (<IntroDialog
             onStart={handleStart}
-            headerText={translations["header"]}
-            descriptionText={translations["description"]}
-            starsToGainText={translations["stars-to-gain"].replace("{0}", data.content.risks.length.toString())}
-            startText={translations["start"]}
+            headerText={translations["intro-header"]}
+            descriptionText={translations["intro-description"]}
+            starsToGainText={translations["intro-stars-to-gain"].replace("{0}", data.content.risks.length.toString())}
+            startText={translations["intro-start"]}
           />)}
           {state === GameState.complete && 
           (<CompleteDialog
-            onStart={handleStart}
-            headerText={translations["header"]}
-            descriptionText={translations["description"]}
-            startText={translations["start"]}
+            onTryAgain={handleReset}
+            onExit={handleStart}
+            total={data.content.risks.length}
+            mistakes={mistakes}
+            headerText={translations["complete-header"]}
+            scoreText={translations["complete-score"]}
+            tryAgainText={translations["complete-try-again"]}
+            exitText={translations["complete-exit"]}
           />)}
           {(!!(state & (GameState.normal | GameState.wrong | GameState.correct))) && (
             <Spinner 
