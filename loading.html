@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <style>
+        body {
+            background: #47C3FF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .white-block {
+            background: #FFFFFF;
+            width: 128px;
+            height: 128px;
+            position: relative;
+        }
+
+        .blue-block {
+            background: #47C3FF;
+            width: 50%;
+            height: 50%;
+            animation: square-round-the-world 3.5s none 200ms infinite;
+            position: absolute;
+        }
+
+
+        @keyframes square-round-the-world {
+            0% { transform: translate(0, 0) }
+            15% { transform: translate(0, 100%) }
+            25% { transform: translate(0, 100%) }
+            40% { transform: translate(100%, 100%) }
+            50% { transform: translate(100%, 100%) }
+            60% { transform: translate(100%, 0) }
+            70% { transform: translate(100%, 0) }
+            90% { transform: translate(0, 0) }
+        }
+
+        .outset {
+            background: white;
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            animation: outside-go-out 3.5s none 200ms infinite;
+        }
+
+        @keyframes outside-go-out {
+            0% { right: 0; top: 0}
+            50% { right: 0; top: 0}
+            60% { right: -20%; top: -20% }
+            70% { right: -20%; top: -20% }
+            90% { right: 0; top: 0 }
+            100% { right: 0; top: 0 }
+        }
+    </style>
+  </head>
+  <body>
+      <div class="white-block">
+          <div class="outset"></div>
+          <div class="blue-block"></div>
+      </div>
+  </body>
+</html>
