@@ -1,6 +1,6 @@
-
-
 {
+    "url":"https://spassvogel.github.io/spinner/",
+    "data":{
     "userId": 1,
     "settings": {
         "muted": false
@@ -39,7 +39,7 @@
         "value": "Stop onmiddellijk met werken (eigen veiligheid)"
     }, {
         "key": "intro-header",
-        "value": "Spinner game"
+        "value": "Spinner game11"
     }, {
         "key": "intro-start",
         "value": "Start"
@@ -70,4 +70,6 @@
         "score": 2,
         "maxScore": 2
     }]
+    }
   }
+
