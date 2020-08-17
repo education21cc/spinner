@@ -47,10 +47,9 @@ const App = () => {
     // See if we are fed gamedata by 21ccplayer app, if not, go fetch it ourselves
     const timeout = setTimeout(() => {
       // @ts-ignore
-      if(!window.GAME_DATA || !process.env.REACT_APP_PLAYER_MODE) {
+      if(!window.GAMEDATA) {
         console.log("no bridge found, fetching fallback")
-        // @ts-ignore
-        
+        // @ts-ignore 
         fetch(`${process.env.PUBLIC_URL}/config/spinner.json`)
         .then((response) => {
           response.json().then((data) => {
@@ -59,7 +58,7 @@ const App = () => {
           })
         })
       }
-    }, 300); // todo: maybe a less hacky way
+    }, 2000); // todo: maybe a less hacky way
     return () => { clearTimeout(timeout)};
   }, []);
 
@@ -93,17 +92,18 @@ const App = () => {
   const handleGameDataReceived = (data: GameData<SpinnerData> ) => {
     setData(data.content);
     setLoading(false);
-
-    const t = data.translations.reduce<{[key: string]: string}>((acc, translation) => {
-      acc[translation.key] = translation.value;
-      return acc;
-    }, {});
-    setTranslations(t);
+    if (data.translations){
+      const t = data.translations.reduce<{[key: string]: string}>((acc, translation) => {
+        acc[translation.key] = translation.value;
+        return acc;
+      }, {});
+      setTranslations(t);
+    }
   }
 
   useEffect(() => {
     // Complete!
-    if(state === GameState.normal && correct.length > 0 /*=== data.content.risks.length*/){
+    if(state === GameState.normal && correct.length > 0 /*=== data.risks.length*/){
       setState(GameState.complete);
     }
   }, [correct, state]);

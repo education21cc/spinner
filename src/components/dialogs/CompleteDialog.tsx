@@ -21,8 +21,8 @@ const CompleteDialog = (props: Props) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (window.setLevelScore) window.setLevelScore(1, score); 
-  }, [score]);
+    if (window.setLevelScore) window.setLevelScore(1, score, total); 
+  }, [score, total]);
 
   const renderStars = () => {
     const result = [];

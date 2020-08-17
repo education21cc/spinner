@@ -54,7 +54,7 @@ const PlayerBridge = (props: Props) => {
         }
 
         // @ts-ignore
-        window.setLevelScore = (level: number, score: number) => {
+        window.setLevelScore = (level: number, score: number, maxScore: number) => {
             // @ts-ignore
             const levelsCompleted: Level[] = window.GAMEDATA?.levelsCompleted || [];
             const index = levelsCompleted.findIndex(l => l.level === level);
@@ -62,6 +62,13 @@ const PlayerBridge = (props: Props) => {
                 if (levelsCompleted[index].score > score) {
                     levelsCompleted[index].score = score;
                 }
+            }
+            else {
+                levelsCompleted.push({
+                    level,
+                    score,
+                    maxScore
+                })
             }
             const payload = {
                 levelsCompleted,
@@ -72,10 +79,7 @@ const PlayerBridge = (props: Props) => {
                 type: 'setGameData',
                 data: payload
             });
-        }
-       
-        // @ts-ignore
-        window.GAMEDATA = null; 
+        }       
         
         // @ts-ignore
         window.getGameData = () => {
