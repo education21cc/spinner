@@ -1,6 +1,4 @@
 {
-    "url":"https://spassvogel.github.io/spinner/",
-    "data":{
     "userId": 1,
     "settings": {
         "muted": false
@@ -67,6 +65,5 @@
         "score": 2,
         "maxScore": 2
     }]
-    }
   }
 
