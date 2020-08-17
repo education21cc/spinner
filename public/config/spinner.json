@@ -1,0 +1,73 @@
+
+
+{
+    "userId": 1,
+    "settings": {
+        "muted": false
+    },
+    "content": {
+        "risks": [
+            "images/aanraking.png",
+            "images/giftige.png",
+            "images/machine.png",
+            "images/snijden.png",
+            "images/spanning.png",
+            "images/vallen.png",
+            "images/zuurstof.png"
+        ],
+        "events": [
+            "Aanraking koude of hete goederen",
+            "Vergiftiging",
+            "Werken met gevaarlijke machines",
+            "Jezelf snijden",
+            "Aanraking geleiders onder spannnig",
+            "Vallen van grote hoogte",
+            "Zuurstof&shy;tekort"
+        ],
+        "effects": [
+            "Brand&shy;wonden of bevriezing",
+            "Inademing giftige stof",
+            "Ernstige verwon&shy;dingen",
+            "Snijwonden",
+            "Brand&shy;wonden en electrocutie",
+            "Verwon&shy;dingen aan het lichaam",
+            "Verstikking"
+        ]
+    },
+    "translations": [{
+        "key": "heartLeft",
+        "value": "Stop onmiddellijk met werken (eigen veiligheid)"
+    }, {
+        "key": "intro-header",
+        "value": "Spinner game"
+    }, {
+        "key": "intro-start",
+        "value": "Start"
+    }, {
+        "key": "intro-description",
+        "value": "In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents. In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents."
+    }, {
+        "key": "intro-stars-to-gain",
+        "value": "{0} stars to gain"
+    }, {
+        "key": "stars-to-gain",
+        "value": "{0} stars to gain"
+    }, {
+        "key": "complete-header",
+        "value": "Congratulations"
+    }, {
+        "key": "complete-score",
+        "value": "Total score {0} / {1}"
+    }, {
+        "key": "complete-try-again",
+        "value": "Try again"
+    }, {
+        "key": "complete-exit",
+        "value": "Exit"
+    }],
+    "levelsCompleted": [{
+        "level": 1,
+        "score": 2,
+        "maxScore": 2
+    }]
+  }

@@ -2,6 +2,7 @@
 import React, {  useEffect } from 'react';
 import './style/styles.css';
 import { ReactComponent as CloseIcon } from './style/close.svg';
+import { Level } from './GameData';
 
 interface Props {
     gameDataReceived: (gameData: any) => void;
@@ -29,7 +30,6 @@ const PlayerBridge = (props: Props) => {
             type: 'exit'
         });
     }
-
     
     useEffect(() => {
         if (!process.env.REACT_APP_PLAYER_MODE) {
@@ -50,6 +50,27 @@ const PlayerBridge = (props: Props) => {
             send({
                 type: 'setGameData',
                 data: gameData
+            });
+        }
+
+        // @ts-ignore
+        window.setLevelScore = (level: number, score: number) => {
+            // @ts-ignore
+            const levelsCompleted: Level[] = window.GAMEDATA?.levelsCompleted || [];
+            const index = levelsCompleted.findIndex(l => l.level === level);
+            if (index > -1) {
+                if (levelsCompleted[index].score > score) {
+                    levelsCompleted[index].score = score;
+                }
+            }
+            const payload = {
+                levelsCompleted,
+                // @ts-ignore
+                settings: window.GAMEDATA?.settings || {}
+            }
+            send({
+                type: 'setGameData',
+                data: payload
             });
         }
        

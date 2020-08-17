@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import BaseDialog from './BaseDialog';
 import { ReactComponent as StarEmpty } from './../../common/images/star-empty.svg';
 import { ReactComponent as StarFull } from './../../common/images/star-full.svg';
@@ -18,6 +18,11 @@ interface Props {
 const CompleteDialog = (props: Props) => {
   const { total, mistakes } = props;
   const score = Math.max(total - mistakes, 0);
+
+  useEffect(() => {
+    // @ts-ignore
+    if (window.setLevelScore) window.setLevelScore(1, score); 
+  }, [score]);
 
   const renderStars = () => {
     const result = [];
