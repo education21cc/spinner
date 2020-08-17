@@ -35,9 +35,6 @@
         ]
     },
     "translations": [{
-        "key": "heartLeft",
-        "value": "Stop onmiddellijk met werken (eigen veiligheid)"
-    }, {
         "key": "intro-header",
         "value": "Spinner game11"
     }, {
