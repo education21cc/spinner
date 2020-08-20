@@ -2,10 +2,11 @@ import React, { useMemo, useRef, useEffect, useCallback } from 'react';
 
 interface Props {
   data: string[];
-  disabled?: number[]; // indexes of disabled
+  translations: {[key: string]: string};
+  disabled?: string[]; // disabled cards
   className: string;
   image?: boolean;
-  onCardIndexChanged: (index: number) => void;
+  onCardChanged: (value: string) => void;
   initialMove: number;
 }
 
@@ -24,7 +25,8 @@ const Ring = (props: Props) => {
   const { 
     disabled,
     initialMove,
-    onCardIndexChanged 
+    translations,
+    onCardChanged 
   } = props;
 
   const caretRef = useRef(0);
@@ -34,19 +36,22 @@ const Ring = (props: Props) => {
   const items = useMemo(() => {
     return shuffle(props.data);
   }, [props.data]);
-  
+
   const update = useCallback((transitionTime: number = BASE_ANIMATION_TIME, phase: Phase = Phase.firstAndLast) => {
     const parent = ref.current as HTMLDivElement;
     const caret = caretRef.current;
     
-    const halfItems = Math.floor(items.length / 2);
+    const halfItems = Math.ceil(items.length / 2);
     let counter = 0;
+    // console.log(`caret at: ${caret}`)
     for (let i = caret; i < parent.children.length + caret; i++) {
       let index = i % items.length;
       if (i < 0) index += items.length;
+      // console.log(`index: ${index}`, `counter: ${counter}`, (halfItems-counter + halfItems) * -1, (counter > halfItems))
       
       const element = parent.children[index % items.length] as HTMLElement;
       element.style.transition = `top ${transitionTime}s ${phase}`;
+      element.setAttribute('index', index + '')
       
       // Add animation only to the current card and those above and below
       if (Math.abs((i - caret) % (items.length - 1)) < 2) {
@@ -60,7 +65,7 @@ const Ring = (props: Props) => {
       
       if (counter > halfItems) {
         // Draw above (please dont ask me why this works. it works, allright?)
-        element.style.top = `${halfItems * -(ITEM_HEIGHT + MARGIN) - ((halfItems + (halfItems % 2) - counter) * (ITEM_HEIGHT + MARGIN))}px`;
+        element.style.top = `${(-2 * halfItems + counter + items.length % 2) * (ITEM_HEIGHT + MARGIN)}px`;
       } else {
         // Draw below
         element.style.top = `${counter * (ITEM_HEIGHT + MARGIN)}px`;
@@ -107,20 +112,20 @@ const Ring = (props: Props) => {
   }
   
   const handleCaretChanged = useCallback(() => {
-    const cardIndex = () => {
+    const cardValue = () => {
       const index = caretRef.current % items.length;
       const node = ref.current!.children[index]!;
-      return parseInt(node.getAttribute('original-index')!, 10);
+      return node.getAttribute('data-value')!;
     };
 
-    onCardIndexChanged(cardIndex());
-  }, [items.length, onCardIndexChanged]);
+    onCardChanged(cardValue());
+  }, [items.length, onCardChanged]);
 
   const move = useCallback((amount: number = 1) =>  {
     if (spinning.current) {
       return;
     }
-    if (amount === 1 || amount === -1) {
+    if (Math.abs(amount) === 1) {
       caretRef.current += amount;
       if (caretRef.current < 0)
       caretRef.current = items.length + caretRef.current;
@@ -178,8 +183,8 @@ const Ring = (props: Props) => {
 
     for (let i = 0; i < parentNode.children.length; i++) {
       const element = parentNode.children[i] as HTMLElement;
-      const index = parseInt(element.getAttribute('original-index')!, 10);
-      if (disabled.indexOf(index) !== -1) {
+      const value = element.getAttribute('data-value')!;
+      if (disabled.indexOf(value) !== -1) {
           element.classList.add('disabled');
       } else {
           element.classList.remove('disabled');
@@ -197,17 +202,18 @@ const Ring = (props: Props) => {
           style={{
             backgroundImage: `url(${item})`
           }}
-          original-index={props.data.indexOf(item)}
+          data-value={item}
         />
       );
     }
+    const text = (translations[item] || "").replace(/&shy;/gi, '\u00AD');
     return (
       <div 
         key={item}
         className="item"
-        original-index={props.data.indexOf(item)}
+        data-value={item}
       >
-        {item.replace(/&shy;/gi, '\u00AD')}
+        {text}
       </div>
     );
   }

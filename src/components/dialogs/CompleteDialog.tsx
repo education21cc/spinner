@@ -18,6 +18,8 @@ interface Props {
 const CompleteDialog = (props: Props) => {
   const { total, mistakes } = props;
   const score = Math.max(total - mistakes, 0);
+  console.log(`mistakes: ${mistakes}`)
+  console.log(`total: ${total}`)
 
   useEffect(() => {
     // @ts-ignore

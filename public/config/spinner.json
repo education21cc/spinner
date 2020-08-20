@@ -3,38 +3,38 @@
     "settings": {
         "muted": false
     },
-    "content": {
-        "risks": [
-            "images/aanraking.png",
-            "images/giftige.png",
-            "images/machine.png",
-            "images/snijden.png",
-            "images/spanning.png",
-            "images/vallen.png",
-            "images/zuurstof.png"
-        ],
-        "events": [
-            "Aanraking koude of hete goederen",
-            "Vergiftiging",
-            "Werken met gevaarlijke machines",
-            "Jezelf snijden",
-            "Aanraking geleiders onder spannnig",
-            "Vallen van grote hoogte",
-            "Zuurstof&shy;tekort"
-        ],
-        "effects": [
-            "Brand&shy;wonden of bevriezing",
-            "Inademing giftige stof",
-            "Ernstige verwon&shy;dingen",
-            "Snijwonden",
-            "Brand&shy;wonden en electrocutie",
-            "Verwon&shy;dingen aan het lichaam",
-            "Verstikking"
-        ]
-    },
+    "content": [{
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=aanraking.png",
+        "ring2": "event-aanraking",
+        "ring3": "effect-aanraking"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=giftige.png",
+        "ring2": "event-giftige",
+        "ring3": "effect-giftige"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=machine.png",
+        "ring2": "event-machine",
+        "ring3": "effect-verwonding"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=snijden.png",
+        "ring2": "event-snijden",
+        "ring3": "effect-snijden"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=spanning.png",
+        "ring2": "event-spanning",
+        "ring3": "effect-spanning"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=vallen.png",
+        "ring2": "event-vallen",
+        "ring3": "effect-verwonding"
+    }, {
+        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=zuurstof.png",
+        "ring2": "event-zuurstof",
+        "ring3": "effect-zuurstof"
+    }],
     "translations": [{
         "key": "intro-header",
-        "value": "Spinner game11"
+        "value": "Spinner game"
     }, {
         "key": "intro-start",
         "value": "Start"
@@ -59,6 +59,45 @@
     }, {
         "key": "complete-exit",
         "value": "Exit"
+    }, {
+        "key": "event-aanraking",
+        "value": "Aanraking koude of hete goederen"
+    }, {
+        "key": "effect-aanraking",
+        "value": "Brand&shy;wonden of bevriezing"
+    }, {
+        "key": "event-giftige",
+        "value": "Vergiftiging"
+    }, {
+        "key": "effect-giftige",
+        "value": "Inademing giftige stof"
+    }, {
+        "key": "event-machine",
+        "value": "Werken met gevaarlijke machines"
+    }, {
+        "key": "effect-verwonding",
+        "value": "Ernstige verwon&shy;dingen"
+    }, {
+        "key": "event-snijden",
+        "value": "Jezelf snijden"
+    }, {
+        "key": "effect-snijden",
+        "value": "Snijwonden"
+    }, {
+        "key": "event-spanning",
+        "value": "Aanraking geleiders onder spannnig"
+    }, {
+        "key": "effect-spanning",
+        "value": "Brand&shy;wonden en electrocutie"
+    }, {
+        "key": "event-vallen",
+        "value": "Vallen van grote hoogte"
+    }, {
+        "key": "event-zuurstof",
+        "value": "Zuurstof&shy;tekort"
+    }, {
+        "key": "effect-zuurstof",
+        "value": "Verstikking"
     }],
     "levelsCompleted": [{
         "level": 1,

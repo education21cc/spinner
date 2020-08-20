@@ -1,19 +1,19 @@
 
-export const initialState: [number, number, number] = [0, 0, 0];
+export const initialState: [string, string, string] = ["", "", ""];
 
 type Action =
- | { type: 'updateRing0', index: number }
- | { type: 'updateRing1', index: number }
- | { type: 'updateRing2', index: number }
+ | { type: 'updateRing0', value: string }
+ | { type: 'updateRing1', value: string }
+ | { type: 'updateRing2', value: string }
 
-export const reducer = (state: [number, number, number], action: Action) => {
+export const reducer = (state: [string, string, string], action: Action) => {
   switch (action.type) {
     case 'updateRing0':
-      return Object.assign(initialState, state, { 0: action.index });
+      return Object.assign(initialState, state, { 0: action.value });
     case 'updateRing1':
-      return Object.assign(initialState, state, { 1: action.index });
+      return Object.assign(initialState, state, { 1: action.value });
     case 'updateRing2':
-      return Object.assign(initialState, state, { 2: action.index });
+      return Object.assign(initialState, state, { 2: action.value });
   }
 }
   

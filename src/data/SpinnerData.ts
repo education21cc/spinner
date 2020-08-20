@@ -1,5 +1,5 @@
 export interface SpinnerData {
-  risks: string[];
-  events: string[];
-  effects: string[];
+  ring1: string;
+  ring2: string;
+  ring3: string;
 }

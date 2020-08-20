@@ -1,7 +1,5 @@
 import React, { useReducer, useCallback, useState, useEffect} from 'react';
 import Spinner from '../Spinner';
-import './styles/app.scss';
-import './../styles/common.scss'
 import { SpinnerData } from '../../data/SpinnerData';
 import CheckButton from '../CheckButton';
 import { initialState, reducer } from './reducer';
@@ -11,6 +9,8 @@ import PlayerBridge from '../playerBridge';
 import IntroDialog from '../dialogs/IntroDialog';
 import CompleteDialog from '../dialogs/CompleteDialog';
 import Loading from '../playerBridge/Loading';
+import './styles/app.scss';
+import './../styles/common.scss'
 
 
 enum GameState {
@@ -23,23 +23,23 @@ enum GameState {
 
 const App = () => {
   const [state, setState] = useState(GameState.intro);
-  const [data, setData] = useState<SpinnerData>();
+  const [data, setData] = useState<SpinnerData[]>();
   const [translations, setTranslations] = useState<{[key: string]: string}>({});
-  const [correct, setCorrect] = useState<number[]>([]);
-  const [mistakes, setMistakes] = useState(2);
+  const [correct, setCorrect] = useState<string[]>([]);
+  const [mistakes, setMistakes] = useState(0);
   const [selectedItems, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState(true);
 
-  const handleRing0CardChanged = useCallback((index: number) => {
-    dispatch({ type: 'updateRing0', index});
+  const handleRing0CardChanged = useCallback((value: string) => {
+    dispatch({ type: 'updateRing0', value});
   }, []);
   
-  const handleRing1CardChanged = useCallback((index: number) => {   
-    dispatch({ type: 'updateRing1', index});
+  const handleRing1CardChanged = useCallback((value: string) => {   
+    dispatch({ type: 'updateRing1', value});
   }, []);
   
-  const handleRing2CardChanged = useCallback((index: number) => {   
-    dispatch({ type: 'updateRing2', index});
+  const handleRing2CardChanged = useCallback((value: string) => {   
+    dispatch({ type: 'updateRing2', value});
   }, []);
 
 
@@ -63,7 +63,9 @@ const App = () => {
   }, []);
 
   const check = () => {
-    if (selectedItems[0] === selectedItems[1] && selectedItems[1] === selectedItems[2]){
+    if (!data) return;
+
+    if (data.some((d) => d.ring1 === selectedItems[0] && d.ring2 === selectedItems[1] && d.ring3 == selectedItems[2])){
       setState(GameState.correct);
       setCorrect([...correct, selectedItems[0]]);
     } else {
@@ -89,7 +91,7 @@ const App = () => {
     setState(GameState.normal);
   }
 
-  const handleGameDataReceived = (data: GameData<SpinnerData> ) => {
+  const handleGameDataReceived = (data: GameData<SpinnerData[]> ) => {
     setData(data.content);
     setLoading(false);
     if (data.translations){
@@ -103,12 +105,10 @@ const App = () => {
 
   useEffect(() => {
     // Complete!
-    if(state === GameState.normal && correct.length > 0 /*=== data.risks.length*/){
+    if(state === GameState.normal && correct.length === data?.length){
       setState(GameState.complete);
     }
-  }, [correct, state]);
-
-
+  }, [correct, data, state]);
 
   return (
     <>
@@ -124,14 +124,14 @@ const App = () => {
             onStart={handleStart}
             headerText={translations["intro-header"]}
             descriptionText={translations["intro-description"]}
-            starsToGainText={translations["intro-stars-to-gain"]?.replace("{0}", data.risks.length.toString())}
+            starsToGainText={translations["intro-stars-to-gain"]?.replace("{0}", data.length.toString())}
             startText={translations["intro-start"]}
           />)}
           {state === GameState.complete && 
           (<CompleteDialog
             onTryAgain={handleReset}
             onExit={handleStart}
-            total={data?.risks.length || 0}
+            total={data?.length || 0}
             mistakes={mistakes}
             headerText={translations["complete-header"]}
             scoreText={translations["complete-score"]}
@@ -142,10 +142,11 @@ const App = () => {
             <Spinner 
               data={data}
               correct={correct}
+              translations={translations}
               onClick={handleSpinnerClick}
-              onRing0IndexChanged={handleRing0CardChanged}
-              onRing1IndexChanged={handleRing1CardChanged}
-              onRing2IndexChanged={handleRing2CardChanged}
+              onRing0Changed={handleRing0CardChanged}
+              onRing1Changed={handleRing1CardChanged}
+              onRing2Changed={handleRing2CardChanged}
             />
           )}
           {state === GameState.normal && <CheckButton onClick={check}/>}
