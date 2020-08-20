@@ -1,8 +1,15 @@
 .intro-dialog {
   display: flex;
   flex-direction: column;
-  font-size: large;
 }
+
+/** medium and large resolutions */
+@media only screen and (min-width: 576px) {
+  .intro-dialog {
+    font-size: large;
+  }
+}
+
 
 .intro-dialog .top {
   flex: 1;

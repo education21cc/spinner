@@ -1,8 +1,8 @@
-$box-size: 224;
+$box-size: 200;
 $margin: 10;
 
 .app-center {
-  width: 3 * ($box-size + $margin) + 2 * $box-size / 5  + 0px;
+  width: 3 * ($box-size + $margin) + 8 + 0px;
   margin: auto;
   position: relative;
   top: -48px;

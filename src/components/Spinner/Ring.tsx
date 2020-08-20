@@ -10,7 +10,7 @@ interface Props {
   initialMove: number;
 }
 
-const ITEM_HEIGHT = 224;
+const ITEM_HEIGHT = 200;
 const MARGIN = 10;
 const BASE_ANIMATION_TIME = 0.2; // amount of time to scroll one item
 
