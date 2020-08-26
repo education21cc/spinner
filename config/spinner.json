@@ -34,31 +34,28 @@
     }],
     "translations": [{
         "key": "intro-header",
-        "value": "Spinner game"
+        "value": "Risico = Kans x Effect"
     }, {
         "key": "intro-start",
         "value": "Start"
     }, {
         "key": "intro-description",
-        "value": "In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents. In warehouse there are areas where it is not allowed to walk without helmet, because of danger and accidents."
+        "value": "Binnen een warehouse kunnen gevaarlijke situaties ontstaan. Hiervoor moet je altijd waakzaam zijn.\nIn dit spel zie je 7 verschillende situaties getekend waarbij, als je niet oplet, de kans bestaat dat er\neen ongeluk gebeurt.\nHet ongeluk noemen we in dit spel 'het effect'.\nKies de juiste 3-tallen naast elkaar: situatie – kans – effect\n"
     }, {
         "key": "intro-stars-to-gain",
-        "value": "{0} stars to gain"
-    }, {
-        "key": "stars-to-gain",
-        "value": "{0} stars to gain"
+        "value": "{0} sterren om te winnen"
     }, {
         "key": "complete-header",
-        "value": "Congratulations"
+        "value": "Gefeliciteerd"
     }, {
         "key": "complete-score",
-        "value": "Total score {0} / {1}"
+        "value": "Totale score {0} / {1}"
     }, {
         "key": "complete-try-again",
-        "value": "Try again"
+        "value": "Opnieuw"
     }, {
         "key": "complete-exit",
-        "value": "Exit"
+        "value": "Afsluiten"
     }, {
         "key": "event-aanraking",
         "value": "Aanraking koude of hete goederen"
