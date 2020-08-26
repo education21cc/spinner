@@ -43,9 +43,6 @@
         "value": "<<DESCRIPTION MISSING>>"
     }, {
         "key": "intro-stars-to-gain",
-        "value": "{0} stars to gain"
-    }, {
-        "key": "stars-to-gain",
         "value": "{0} Sterren om te winnen"
     }, {
         "key": "complete-header",

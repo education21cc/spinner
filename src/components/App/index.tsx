@@ -65,7 +65,7 @@ const App = () => {
   const check = () => {
     if (!data) return;
 
-    if (data.some((d) => d.ring1 === selectedItems[0] && d.ring2 === selectedItems[1] && d.ring3 == selectedItems[2])){
+    if (data.some((d) => d.ring1 === selectedItems[0] && d.ring2 === selectedItems[1] && d.ring3 === selectedItems[2])){
       setState(GameState.correct);
       setCorrect([...correct, selectedItems[0]]);
     } else {
@@ -101,6 +101,9 @@ const App = () => {
       }, {});
       setTranslations(t);
     }
+
+    // console.log(data.translations.map(t => `${t.key}`).join('\n'))
+    // console.log(data.translations.map(t => t.value).join('\n'))
   }
 
   useEffect(() => {
@@ -117,7 +120,6 @@ const App = () => {
         <Loading />
       )}
       <div className="background">
-      
         <div className="app-center">
           {(state === GameState.intro && !!data) &&
           (<IntroDialog
