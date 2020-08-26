@@ -40,10 +40,10 @@
         "value": "Start"
     }, {
         "key": "intro-description",
-        "value": "<<DESCRIPTION MISSING>>"
+        "value": "Binnen een warehouse kunnen gevaarlijke situaties ontstaan. Hiervoor moet je altijd waakzaam zijn.\nIn dit spel zie je 7 verschillende situaties getekend waarbij, als je niet oplet, de kans bestaat dat er\neen ongeluk gebeurt.\nHet ongeluk noemen we in dit spel 'het effect'.\nKies de juiste 3-tallen naast elkaar: situatie – kans – effect\n"
     }, {
         "key": "intro-stars-to-gain",
-        "value": "{0} Sterren om te winnen"
+        "value": "{0} sterren om te winnen"
     }, {
         "key": "complete-header",
         "value": "Gefeliciteerd"
