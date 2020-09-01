@@ -1,15 +1,16 @@
-
 import React, {  useEffect } from 'react';
 import './style/styles.css';
 import { ReactComponent as CloseIcon } from './style/close.svg';
-import { Level } from './GameData';
 
 interface Props {
+    disableBackButton?: boolean;
     gameDataReceived: (gameData: any) => void;
 }
 
+// start w  REACT_APP_PLAYER_MODE=true npm start
+
 const PlayerBridge = (props: Props) => {   
-    const {gameDataReceived} = props;
+    const {gameDataReceived, disableBackButton} = props;
 
     const send = (payload: any) => {
         // @ts-ignore
@@ -25,19 +26,41 @@ const PlayerBridge = (props: Props) => {
         }
     }
 
+    const back = () => {       
+        send({
+            type: 'back'
+        });
+    }
+
     const exit = () => {       
         send({
             type: 'exit'
         });
     }
-    
+
     useEffect(() => {
         if (!process.env.REACT_APP_PLAYER_MODE) {
             return;
         }
+        let interval: NodeJS.Timeout;
         
+        const check = () => {
+            // @ts-ignore
+            // @ts-ignore
+            if (window.GAMEDATA) {
+                clearInterval(interval);
+                // @ts-ignore
+                // @ts-ignore
+                gameDataReceived(window.GAMEDATA);
+            }
+        }
+        // cordova iab just sets window.GAMEDATA
+        interval = setInterval(check, 250);
+
         const receiveMessage = (msg: any) => {
-            if (!msg.data.hasOwnProperty('userId')){
+            clearInterval(interval);
+
+            if (!msg.data.hasOwnProperty('content')){
                 return;
             }
             // @ts-ignore
@@ -52,51 +75,29 @@ const PlayerBridge = (props: Props) => {
                 data: gameData
             });
         }
-
-        // @ts-ignore
-        window.setLevelScore = (level: number, score: number, maxScore: number) => {
-            // @ts-ignore
-            const levelsCompleted: Level[] = window.GAMEDATA?.levelsCompleted || [];
-            const index = levelsCompleted.findIndex(l => l.level === level);
-            if (index > -1) {
-                if (levelsCompleted[index].score > score) {
-                    levelsCompleted[index].score = score;
-                }
-            }
-            else {
-                levelsCompleted.push({
-                    level,
-                    score,
-                    maxScore
-                })
-            }
-            const payload = {
-                levelsCompleted,
-                // @ts-ignore
-                settings: window.GAMEDATA?.settings || {}
-            }
-            send({
-                type: 'setGameData',
-                data: payload
-            });
-        }       
-        
+               
         // @ts-ignore
         window.getGameData = () => {
             // @ts-ignore
             return window.GAMEDATA;
         }   
         window.addEventListener("message", receiveMessage, false);
+
+        return () => {
+            clearInterval(interval);
+        }
     }, [gameDataReceived]);
 
     if (!process.env.REACT_APP_PLAYER_MODE) {
         return null;
     }
 
-
+    if (disableBackButton === true) {
+        return null;
+    }
     return (
         <div className="close">
-            <CloseIcon onClick={exit} />
+            <CloseIcon onClick={back} />
         </div>
     )
 }

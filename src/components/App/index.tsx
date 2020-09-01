@@ -45,21 +45,17 @@ const App = () => {
 
   useEffect(() => {
     // See if we are fed gamedata by 21ccplayer app, if not, go fetch it ourselves
-    const timeout = setTimeout(() => {
-      // @ts-ignore
-      if(!window.GAMEDATA) {
-        console.log("no bridge found, fetching fallback")
-        // @ts-ignore 
-        fetch(`${process.env.PUBLIC_URL}/config/spinner.json`)
-        .then((response) => {
-          response.json().then((data) => {
-            handleGameDataReceived(data);
-            setLoading(false);
-          })
+    if (!process.env.REACT_APP_PLAYER_MODE) {
+      console.log("no bridge found, fetching fallback...")
+      // @ts-ignore 
+      fetch(`${process.env.PUBLIC_URL}/config/spinner.json`)
+      .then((response) => {
+        response.json().then((data) => {
+          handleGameDataReceived(data);
+          setLoading(false);
         })
-      }
-    }, 2000); // todo: maybe a less hacky way
-    return () => { clearTimeout(timeout)};
+      })
+    }
   }, []);
 
   const check = () => {

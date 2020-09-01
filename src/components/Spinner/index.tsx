@@ -13,7 +13,6 @@ interface Props {
   onRing2Changed: (value: string) => void;
 }
 
-
 const Spinner = (props: Props) => {
   const {
     data,
