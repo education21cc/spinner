@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/spinner/static/css/main.e4dc3fb5.chunk.css",
-    "main.js": "/spinner/static/js/main.84c1f90d.chunk.js",
-    "main.js.map": "/spinner/static/js/main.84c1f90d.chunk.js.map",
+    "main.js": "/spinner/static/js/main.f595b7bf.chunk.js",
+    "main.js.map": "/spinner/static/js/main.f595b7bf.chunk.js.map",
     "runtime-main.js": "/spinner/static/js/runtime-main.6c97f535.js",
     "runtime-main.js.map": "/spinner/static/js/runtime-main.6c97f535.js.map",
     "static/js/2.832c9dde.chunk.js": "/spinner/static/js/2.832c9dde.chunk.js",
     "static/js/2.832c9dde.chunk.js.map": "/spinner/static/js/2.832c9dde.chunk.js.map",
     "index.html": "/spinner/index.html",
-    "precache-manifest.c242cc8197b1972ac6f355ed49d99134.js": "/spinner/precache-manifest.c242cc8197b1972ac6f355ed49d99134.js",
+    "precache-manifest.304880796983244a612749b2e0c4d65d.js": "/spinner/precache-manifest.304880796983244a612749b2e0c4d65d.js",
     "service-worker.js": "/spinner/service-worker.js",
     "static/css/main.e4dc3fb5.chunk.css.map": "/spinner/static/css/main.e4dc3fb5.chunk.css.map",
     "static/js/2.832c9dde.chunk.js.LICENSE.txt": "/spinner/static/js/2.832c9dde.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.6c97f535.js",
     "static/js/2.832c9dde.chunk.js",
     "static/css/main.e4dc3fb5.chunk.css",
-    "static/js/main.84c1f90d.chunk.js"
+    "static/js/main.f595b7bf.chunk.js"
   ]
 }
