@@ -8,6 +8,8 @@ interface Props {
 }
 
 // start w  REACT_APP_PLAYER_MODE=true npm start
+// note to attach event listener to postmesssage in index.html
+// it should set window.GAMEDATA
 
 const PlayerBridge = (props: Props) => {   
     const {gameDataReceived, disableBackButton} = props;
@@ -50,23 +52,11 @@ const PlayerBridge = (props: Props) => {
             if (window.GAMEDATA) {
                 clearInterval(interval);
                 // @ts-ignore
-                // @ts-ignore
                 gameDataReceived(window.GAMEDATA);
             }
         }
         // cordova iab just sets window.GAMEDATA
         interval = setInterval(check, 250);
-
-        const receiveMessage = (msg: any) => {
-            clearInterval(interval);
-
-            if (!msg.data.hasOwnProperty('content')){
-                return;
-            }
-            // @ts-ignore
-            window.GAMEDATA = msg.data;
-            gameDataReceived(msg.data);
-        }
 
         // @ts-ignore
         window.setGameData = (gameData) => {
@@ -81,7 +71,6 @@ const PlayerBridge = (props: Props) => {
             // @ts-ignore
             return window.GAMEDATA;
         }   
-        window.addEventListener("message", receiveMessage, false);
 
         return () => {
             clearInterval(interval);

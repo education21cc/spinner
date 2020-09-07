@@ -87,7 +87,7 @@ const App = () => {
     setState(GameState.normal);
   }
 
-  const handleGameDataReceived = (data: GameData<SpinnerData[]> ) => {
+  const handleGameDataReceived = useCallback((data: GameData<SpinnerData[]> ) => {
     setData(data.content);
     setLoading(false);
     if (data.translations){
@@ -100,7 +100,7 @@ const App = () => {
 
     // console.log(data.translations.map(t => `${t.key}`).join('\n'))
     // console.log(data.translations.map(t => t.value).join('\n'))
-  }
+  }, []);
 
   useEffect(() => {
     // Complete!
@@ -115,7 +115,7 @@ const App = () => {
       {(loading) && (          
         <Loading />
       )}
-      <div className="background">
+      <div className="">
         <div className="app-center">
           {(state === GameState.intro && !!data) &&
           (<IntroDialog
