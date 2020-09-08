@@ -48,7 +48,6 @@ const PlayerBridge = (props: Props) => {
         
         const check = () => {
             // @ts-ignore
-            // @ts-ignore
             if (window.GAMEDATA) {
                 clearInterval(interval);
                 // @ts-ignore
