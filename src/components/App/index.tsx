@@ -10,7 +10,7 @@ import IntroDialog from '../dialogs/IntroDialog';
 import CompleteDialog from '../dialogs/CompleteDialog';
 import Loading from '../playerBridge/Loading';
 import './styles/app.scss';
-import './../styles/common.scss'
+import './../styles/common.scss';
 
 
 enum GameState {
@@ -108,7 +108,7 @@ const App = () => {
       setState(GameState.complete);
     }
   }, [correct, data, state]);
-
+console.log(translations)
   return (
     <>
       <PlayerBridge gameDataReceived={handleGameDataReceived}/>
@@ -148,8 +148,24 @@ const App = () => {
             />
           )}
           {state === GameState.normal && <CheckButton onClick={check}/>}
-          {state === GameState.correct && <Feedback mode={FeedbackMode.correct} onContinue={handleContinue}/>}
-          {state === GameState.wrong && <Feedback mode={FeedbackMode.wrong} onContinue={handleContinue}/>}
+          {state === GameState.correct && (
+            <Feedback 
+              mode={FeedbackMode.correct} 
+              onContinue={handleContinue}
+              continueText={translations["button-continue"]}
+            >
+              {translations["feedback-correct"]}asdad
+            </Feedback>
+          )}
+          {state === GameState.wrong && (
+            <Feedback 
+              mode={FeedbackMode.wrong} 
+              onContinue={handleContinue}
+              continueText={translations["button-continue"]}
+              >
+                {translations["feedback-wrong"]}sdfsdf
+             </Feedback>
+            )}
         </div>
       </div>
     </>

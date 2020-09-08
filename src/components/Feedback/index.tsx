@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import './styles/feedback.scss';
 
 interface Props {
   mode: FeedbackMode;
+  continueText: string;
   onContinue: () => void;
 }
 
@@ -11,12 +12,12 @@ export enum FeedbackMode {
   wrong = 'wrong'
 }
 
-const Feedback = (props: Props) => {
+const Feedback = (props: PropsWithChildren<Props>) => {
   return (
     <div className={`feedback ${props.mode}`} >
-      <span>{props.mode}</span>
+      <span>{props.children}</span>
       <button className="grey button continue" onClick={props.onContinue}>
-        Continue
+        {props.continueText}
       </button>
   </div>
   )
