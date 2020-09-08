@@ -105,6 +105,25 @@ const App = () => {
     setState(GameState.normal);
   }
 
+  const handleExit = useCallback(() => {
+    const send = (payload: any) => {
+      // @ts-ignore
+      if (window.hasOwnProperty("webkit") && window.webkit.hasOwnProperty("messageHandlers")){
+          var stringifiedMessageObj = JSON.stringify(payload);
+          // Send to In App Browser context
+          // @ts-ignore
+          webkit.messageHandlers.cordova_iab.postMessage(stringifiedMessageObj);
+      }
+      else {
+          // @ts-ignore
+          window.parent.postMessage(payload, '*');
+      }
+    }
+
+    send({
+        type: 'exit'
+    });
+  }, []);
 
   useEffect(() => {
     // Complete!
@@ -140,7 +159,7 @@ const App = () => {
           {state === GameState.complete && 
           (<CompleteDialog
             onTryAgain={handleReset}
-            onExit={handleStart}
+            onExit={handleExit}
             total={data?.length || 0}
             mistakes={mistakes}
             headerText={translations["complete-header"]}
@@ -166,7 +185,7 @@ const App = () => {
               onContinue={handleContinue}
               continueText={translations["button-continue"]}
             >
-              {translations["feedback-correct"]}asdad
+              {translations["feedback-correct"]}
             </Feedback>
           )}
           {state === GameState.wrong && (
@@ -175,7 +194,7 @@ const App = () => {
               onContinue={handleContinue}
               continueText={translations["button-continue"]}
               >
-                {translations["feedback-wrong"]}sdfsdf
+                {translations["feedback-wrong"]}
              </Feedback>
             )}
         </div>
