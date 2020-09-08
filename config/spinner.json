@@ -43,7 +43,7 @@
         "value": "Binnen een warehouse kunnen gevaarlijke situaties ontstaan. Hiervoor moet je altijd waakzaam zijn.\nIn dit spel zie je 7 verschillende situaties getekend waarbij, als je niet oplet, de kans bestaat dat er\neen ongeluk gebeurt.\nHet ongeluk noemen we in dit spel 'het effect'.\nKies de juiste 3-tallen naast elkaar: situatie – kans – effect\n"
     }, {
         "key": "intro-stars-to-gain",
-        "value": "{0} sterren om te winnen"
+        "value": "{0}/{1} verdiend"
     }, {
         "key": "complete-header",
         "value": "Gefeliciteerd"
@@ -95,6 +95,15 @@
     }, {
         "key": "effect-zuurstof",
         "value": "Verstikking"
+    }, {
+        "key": "button-continue",
+        "value": "Doorgaan"
+    }, {
+        "key": "feedback-correct",
+        "value": "Goed zo!"
+    }, {
+        "key": "feedback-wrong",
+        "value": "Oeps"
     }],
     "levelsCompleted": [{
         "level": 1,
