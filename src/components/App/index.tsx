@@ -1,10 +1,10 @@
-import React, { useReducer, useCallback, useState, useEffect} from 'react';
+import React, { useReducer, useCallback, useState, useEffect, useMemo} from 'react';
 import Spinner from '../Spinner';
 import { SpinnerData } from '../../data/SpinnerData';
 import CheckButton from '../CheckButton';
 import { initialState, reducer } from './reducer';
 import Feedback, { FeedbackMode } from '../Feedback';
-import { GameData } from '../playerBridge/GameData';
+import { GameData, Level } from '../playerBridge/GameData';
 import PlayerBridge from '../playerBridge';
 import IntroDialog from '../dialogs/IntroDialog';
 import CompleteDialog from '../dialogs/CompleteDialog';
@@ -24,6 +24,7 @@ enum GameState {
 const App = () => {
   const [state, setState] = useState(GameState.intro);
   const [data, setData] = useState<SpinnerData[]>();
+  const [levelsCompleted, setLevelsCompleted] = useState<Level[]>();
   const [translations, setTranslations] = useState<{[key: string]: string}>({});
   const [correct, setCorrect] = useState<string[]>([]);
   const [mistakes, setMistakes] = useState(0);
@@ -42,6 +43,23 @@ const App = () => {
     dispatch({ type: 'updateRing2', value});
   }, []);
 
+  const handleGameDataReceived = useCallback((data: GameData<SpinnerData[]> ) => {
+    setData(data.content);
+    setLevelsCompleted(data.levelsCompleted);    
+
+    setLoading(false);
+    if (data.translations){
+      const t = data.translations.reduce<{[key: string]: string}>((acc, translation) => {
+        acc[translation.key] = translation.value;
+        return acc;
+      }, {});
+      setTranslations(t);
+    }
+
+    // console.log(data.translations.map(t => `${t.key}`).join('\n'))
+    // console.log(data.translations.map(t => t.value).join('\n'))
+  }, []);
+
 
   useEffect(() => {
     // See if we are fed gamedata by 21ccplayer app, if not, go fetch it ourselves
@@ -56,7 +74,7 @@ const App = () => {
         })
       })
     }
-  }, []);
+  }, [handleGameDataReceived]);
 
   const check = () => {
     if (!data) return;
@@ -87,20 +105,6 @@ const App = () => {
     setState(GameState.normal);
   }
 
-  const handleGameDataReceived = useCallback((data: GameData<SpinnerData[]> ) => {
-    setData(data.content);
-    setLoading(false);
-    if (data.translations){
-      const t = data.translations.reduce<{[key: string]: string}>((acc, translation) => {
-        acc[translation.key] = translation.value;
-        return acc;
-      }, {});
-      setTranslations(t);
-    }
-
-    // console.log(data.translations.map(t => `${t.key}`).join('\n'))
-    // console.log(data.translations.map(t => t.value).join('\n'))
-  }, []);
 
   useEffect(() => {
     // Complete!
@@ -108,7 +112,15 @@ const App = () => {
       setState(GameState.complete);
     }
   }, [correct, data, state]);
-console.log(translations)
+
+  const starsToGainText = useMemo<string>(() => {
+    const currentScore = levelsCompleted?.[0]?.score || 0;
+    const maxScore = data?.length || 0;
+    return ("" + translations["intro-stars-to-gain"])
+      .replace("{0}", ""+currentScore)
+      .replace("{1}", ""+maxScore);
+  }, [data, levelsCompleted, translations]);
+
   return (
     <>
       <PlayerBridge gameDataReceived={handleGameDataReceived}/>
@@ -122,7 +134,7 @@ console.log(translations)
             onStart={handleStart}
             headerText={translations["intro-header"]}
             descriptionText={translations["intro-description"]}
-            starsToGainText={translations["intro-stars-to-gain"]?.replace("{0}", data.length.toString())}
+            starsToGainText={starsToGainText}
             startText={translations["intro-start"]}
           />)}
           {state === GameState.complete && 

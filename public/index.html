@@ -20,7 +20,6 @@
         if (!msg.data.hasOwnProperty('content')){
           return;
         }
-        // @ts-ignore
         window.GAMEDATA = msg.data;
       }
       window.addEventListener("message", receiveMessage, false);
