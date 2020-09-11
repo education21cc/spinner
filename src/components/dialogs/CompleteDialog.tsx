@@ -3,6 +3,7 @@ import BaseDialog from './BaseDialog';
 import { ReactComponent as StarEmpty } from './../../common/images/star-empty.svg';
 import { ReactComponent as StarFull } from './../../common/images/star-full.svg';
 import './styles/completeDialog.scss';
+import { send } from '../playerBridge';
 
 interface Props {
   headerText: string;
@@ -23,9 +24,22 @@ const CompleteDialog = (props: Props) => {
   console.log(`total: ${total}`)
 
   useEffect(() => {
+
     // @ts-ignore
-    if (window.setLevelScore) window.setLevelScore(1, score, total); 
-  }, [score, total]);
+    const level = 1;
+    console.log("setting score ", level, score)
+    // @ts-ignore
+    const newData: GameData = { ...window.GAMEDATA};
+    // fck it we just have only one level anwyay
+    newData.levelsCompleted = [
+        { level, score }
+    ]
+    console.log(newData);
+    send({
+        type: 'setGameData',
+        data: newData
+    });
+  }, [score]);
 
   const renderStars = () => {
     const result = [];
