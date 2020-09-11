@@ -25,14 +25,13 @@ const CompleteDialog = (props: Props) => {
 
   useEffect(() => {
 
-    // @ts-ignore
     const level = 1;
-    console.log("setting score ", level, score)
+    const maxScore = 0;
     // @ts-ignore
     const newData: GameData = { ...window.GAMEDATA};
     // fck it we just have only one level anwyay
     newData.levelsCompleted = [
-        { level, score }
+        { level, score, maxScore }
     ]
     console.log(newData);
     send({
