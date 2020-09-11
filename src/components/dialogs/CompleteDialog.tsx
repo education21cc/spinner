@@ -17,7 +17,8 @@ interface Props {
 
 const CompleteDialog = (props: Props) => {
   const { total, mistakes } = props;
-  const score = Math.max(total - mistakes, 0);
+  // const score = Mat.max(total - mistakes, 0); // after discusisng with marloeke we always award everything!
+  const score = total;
   console.log(`mistakes: ${mistakes}`)
   console.log(`total: ${total}`)
 

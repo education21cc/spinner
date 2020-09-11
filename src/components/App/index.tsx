@@ -12,7 +12,7 @@ import Loading from '../playerBridge/Loading';
 import './styles/app.scss';
 import './../styles/common.scss';
 
-
+// set window.DEBUG_CHEAT to true to allow every answer to be correct
 enum GameState {
   intro = 0,
   normal = 1 << 1,
@@ -79,7 +79,8 @@ const App = () => {
   const check = () => {
     if (!data) return;
 
-    if (data.some((d) => d.ring1 === selectedItems[0] && d.ring2 === selectedItems[1] && d.ring3 === selectedItems[2])){
+    // @ts-ignore
+    if (window.DEBUG_CHEAT || data.some((d) => d.ring1 === selectedItems[0] && d.ring2 === selectedItems[1] && d.ring3 === selectedItems[2])){
       setState(GameState.correct);
       setCorrect([...correct, selectedItems[0]]);
     } else {

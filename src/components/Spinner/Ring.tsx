@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useEffect, useCallback } from 'react';
+import Hammer from 'hammerjs';
 
 interface Props {
   data: string[];
@@ -86,30 +87,15 @@ const Ring = (props: Props) => {
     }
   }
   
-  const goUp = () => {
-    let i = 1;
-    while (cardAtIndexIsDisabled( caretRef.current + i)) {
-      i++;
-      if (i === items.length + 1) {
-        // There is no enabled card left!
-        return;
-      }
-    }
-    move(i);
-  }
-  
-  const goDown = () => {
-    let i = -1;
+  const cardAtIndexIsDisabled = useCallback((index: number) => {
+    if (index < 1) index =+ items.length;
+    index = index % items.length;
 
-    while (cardAtIndexIsDisabled( caretRef.current + i)) {
-      i--;
-      if (i === items.length - 1) {
-        // There is no enabled card left!
-        return;
-      }
-    }
-    move(i);
-  }
+    const parentNode = (ref.current as HTMLElement)!
+    const element = parentNode.children[index] as HTMLElement;
+    return element.classList.contains('disabled');
+  }, [items.length]);
+
   
   const handleCaretChanged = useCallback(() => {
     const cardValue = () => {
@@ -162,20 +148,62 @@ const Ring = (props: Props) => {
     }
   }, [handleCaretChanged, items.length, update]);
   
+  const goUp = useCallback(() => {
+    let i = 1;
+    while (cardAtIndexIsDisabled( caretRef.current + i)) {
+      i++;
+      if (i === items.length + 1) {
+        // There is no enabled card left!
+        return;
+      }
+    }
+    move(i);
+  }, [cardAtIndexIsDisabled, items.length, move]);
   
-  const cardAtIndexIsDisabled = (index: number) => {
-    if (index < 1) index =+ items.length;
-    index = index % items.length;
+  const goDown = useCallback(() => {
+    let i = -1;
 
-    const parentNode = (ref.current as HTMLElement)!
-    const element = parentNode.children[index] as HTMLElement;
-    return element.classList.contains('disabled');
-  }
-  
+    while (cardAtIndexIsDisabled( caretRef.current + i)) {
+      i--;
+      if (i === items.length - 1) {
+        // There is no enabled card left!
+        return;
+      }
+    }
+    move(i);
+  }, [cardAtIndexIsDisabled, items.length, move]);
+    
   useEffect(() => {
     update();
     move(initialMove);
   }, [initialMove, move, update]);
+
+  useEffect(() => {
+    var hammertime = new Hammer(ref.current!, {
+      recognizers: [
+        [Hammer.Swipe,{ direction: Hammer.DIRECTION_VERTICAL }],
+      ]
+    });
+    hammertime.on('swipeup', function(ev) {
+      goUp();
+    });
+    hammertime.on('swipedown', function(ev) {
+      goDown();
+    });
+    hammertime.on('panup', function(ev) {
+      console.log('panup')
+      goUp();
+    });
+    hammertime.on('pandown', function(ev) {
+      console.log('pandown')
+      goDown();
+    });
+    hammertime.on('press', function(ev) {
+      //handleClick(ev.srcEvent as any);
+      //console.log('press')
+    });
+    
+  }, [goDown, goUp]);
   
   useEffect(() => {
     if (!disabled || !disabled.length) return;
@@ -219,7 +247,7 @@ const Ring = (props: Props) => {
   }
 
   return (
-    <div className={`ring ${props.className}`} ref={ref} onClick={handleClick}>
+    <div className={`ring ${props.className}`} ref={ref} >
       {items.map((i) => renderItem(i))}
     </div>
   )
