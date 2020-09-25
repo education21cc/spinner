@@ -5,7 +5,7 @@ import CheckButton from '../CheckButton';
 import { initialState, reducer } from './reducer';
 import Feedback, { FeedbackMode } from '../Feedback';
 import { GameData, Level } from '../playerBridge/GameData';
-import PlayerBridge from '../playerBridge';
+import PlayerBridge, { send } from '../playerBridge';
 import IntroDialog from '../dialogs/IntroDialog';
 import CompleteDialog from '../dialogs/CompleteDialog';
 import Loading from '../playerBridge/Loading';
@@ -97,8 +97,8 @@ const App = () => {
   }
 
   const handleReset = () => { 
-    setState(GameState.normal);
     setMistakes(0);
+    setState(GameState.normal);
     setCorrect([]);
   }
 
@@ -107,20 +107,6 @@ const App = () => {
   }
 
   const handleExit = useCallback(() => {
-    const send = (payload: any) => {
-      // @ts-ignore
-      if (window.hasOwnProperty("webkit") && window.webkit.hasOwnProperty("messageHandlers")){
-          var stringifiedMessageObj = JSON.stringify(payload);
-          // Send to In App Browser context
-          // @ts-ignore
-          webkit.messageHandlers.cordova_iab.postMessage(stringifiedMessageObj);
-      }
-      else {
-          // @ts-ignore
-          window.parent.postMessage(payload, '*');
-      }
-    }
-
     send({
         type: 'exit'
     });
