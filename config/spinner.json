@@ -4,31 +4,31 @@
         "muted": false
     },
     "content": [{
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=aanraking.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/aanraking.png",
         "ring2": "event-aanraking",
         "ring3": "effect-aanraking"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=giftige.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/giftige.png",
         "ring2": "event-giftige",
         "ring3": "effect-giftige"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=machine.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/machine.png",
         "ring2": "event-machine",
         "ring3": "effect-verwonding"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=snijden.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/snijden.png",
         "ring2": "event-snijden",
         "ring3": "effect-snijden"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=spanning.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/spanning.png",
         "ring2": "event-spanning",
         "ring3": "effect-spanning"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=vallen.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/vallen.png",
         "ring2": "event-vallen",
         "ring3": "effect-verwonding"
     }, {
-        "ring1": "https://21cceducation.nl/content/games/images/spinner/image.php?image=zuurstof.png",
+        "ring1": "https://21cccdn.blob.core.windows.net/21cc/games/images/spinner/zuurstof.png",
         "ring2": "event-zuurstof",
         "ring3": "effect-zuurstof"
     }],
